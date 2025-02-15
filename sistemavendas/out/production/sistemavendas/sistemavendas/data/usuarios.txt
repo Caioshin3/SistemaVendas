@@ -1,1 +1,2 @@
 admin,admin123,admin
+Chico,12345,usuario

@@ -23,7 +23,7 @@ public class ComprarProduto {
 
             switch (escolha) {
                 case 0 -> visualizarEstoque();
-                case 1 -> comprarProduto(scanner, usuario);
+                case 1 -> comprarProduto(usuario);
                 case 2 -> {
                     return;
                 }
@@ -53,12 +53,12 @@ public class ComprarProduto {
         }
     }
 
-    private void comprarProduto(Scanner scanner, String usuario) {
+    private void comprarProduto(String usuario) {
         List<String> linhasEstoque = new ArrayList<>();
         double totalCompra = 0; // Variável para acumular o total da compra
         boolean produtoEncontrado = false;
-        String nomeProduto = JOptionPane.showInputDialog("Digite seu nome: ");
-        String quantidade = JOptionPane.showInputDialog("Digite sua senha: ");
+        String nomeProduto = JOptionPane.showInputDialog("Digite o nome do produto: ");
+        String quantidade = JOptionPane.showInputDialog("Digite a quantidade a comprar: ");
 
         int quantidadeCompra = Integer.parseInt(quantidade);
         if (quantidadeCompra <= 0) {
@@ -70,21 +70,21 @@ public class ComprarProduto {
             String linha;
             while ((linha = reader.readLine()) != null) {
                 String[] partes = linha.split(",");
-                 nomeProduto = partes[0];
+                 String nome = partes[0];
                 int quantidadeDisponivel = Integer.parseInt(partes[1]);
                 double preco = Double.parseDouble(partes[2]);
 				
 			    
-                if (nomeProduto.equalsIgnoreCase(nomeProduto)) {
+                if (nome.equalsIgnoreCase(nomeProduto)) {
                     produtoEncontrado = true;
                     if (quantidadeCompra > quantidadeDisponivel) {
                         JOptionPane.showMessageDialog(null, "Erro: Estoque insuficiente. Apenas " + quantidadeDisponivel + " disponíveis.");
                         return;
                     }
                     int novaQuantidade = quantidadeDisponivel - quantidadeCompra;
-                    linhasEstoque.add(nomeProduto + "," + novaQuantidade + "," + preco);
+                    linhasEstoque.add(nome + "," + novaQuantidade + "," + preco);
                     totalCompra += preco * quantidadeCompra; // Soma o total da compra
-                    registrarCompra(usuario, nomeProduto, quantidadeCompra, preco * quantidadeCompra);
+                    registrarCompra(usuario, nome, quantidadeCompra, preco * quantidadeCompra);
 
                     if (novaQuantidade <= 5) {
                         JOptionPane.showMessageDialog(null, "ALERTA: Estoque de " + nomeProduto + " está quase no fim! Restam apenas " + novaQuantidade + " unidades.");

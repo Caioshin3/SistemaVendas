@@ -5,7 +5,7 @@ import javax.swing.*;
 import sistemavendas.gerir.*;
 
 public class AdminMenu {
-    public static void adminMenu(UsuarioService usuarioService, sistemavendas.estoque.EstoqueService estoqueService, Scanner scanner, String usuarioAtual){
+    public static boolean adminMenu(UsuarioService usuarioService, sistemavendas.estoque.EstoqueService estoqueService, Scanner scanner, String usuarioAtual){
         int escolha;
         while (true) {
 
@@ -21,12 +21,14 @@ public class AdminMenu {
                 case 4 -> usuarioService.alterarUsuarioESenha(usuarioAtual);
                 case 5 -> {
 
-                    JOptionPane.showMessageDialog(null, "Login Realizado.");
+                    JOptionPane.showMessageDialog(null, "Logout realizado.");
                     // Transferir o conteúdo de estoque_temp.txt para estoque.txt ao sair
                     SistemaVendas.atualizarEstoque();
-                    return;  // Retorna ao menu de login
+                    return true;  // Retorna ao menu de login
                 }
-                default -> JOptionPane.showMessageDialog(null, "Opção Inválida!");
+                default -> {
+                    return false;
+                }
             }
 
             String[] options2 = {"Voltar"};
@@ -35,7 +37,7 @@ public class AdminMenu {
 
             switch (escolha) {
                 case 0 -> {
-                return;
+                return false;
                 }
             };
         }

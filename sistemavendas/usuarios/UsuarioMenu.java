@@ -4,7 +4,7 @@ import javax.swing.*;
 import sistemavendas.gerir.*;
 
 public class UsuarioMenu {
-    public static void usuarioMenu (UsuarioService usuarioService, sistemavendas.estoque.ComprarProduto comprarProduto, Scanner scanner, String usuarioAtual, boolean usuarioLogado, String tipoUsuario){
+    public static boolean usuarioMenu(UsuarioService usuarioService, sistemavendas.estoque.ComprarProduto comprarProduto, Scanner scanner, String usuarioAtual, boolean usuarioLogado, String tipoUsuario) {
         int escolha;
         String[] options = {"Ir ao menu compra", "Visualizar Estoque", "Sair"};
         escolha = JOptionPane.showOptionDialog(null, "Escolha uma opção:", "Menu Usuário",
@@ -19,12 +19,12 @@ public class UsuarioMenu {
                 JOptionPane.showMessageDialog(null, "Logout realizado.");
                 // Transferir o conteúdo de estoque_temp.txt para estoque.txt ao sair
                 SistemaVendas.atualizarEstoque();
-                return;
+                return true;
             }
             default -> {
-                return;
+                return true;
             }
         }
-
+        return false;
     }
 }

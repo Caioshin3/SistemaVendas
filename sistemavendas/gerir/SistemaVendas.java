@@ -1,5 +1,6 @@
 package sistemavendas.gerir;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
@@ -9,13 +10,14 @@ import sistemavendas.estoque.*;
 import sistemavendas.usuarios.*;
 
 public class SistemaVendas {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(System.in);
         UsuarioService usuarioService = new UsuarioService();
         EstoqueService estoqueService = new EstoqueService();
         ComprarProduto comprarProduto = new ComprarProduto();
 
         verificarAdministrador(usuarioService);
+        criarEstoqueTemp();
 
         boolean usuarioLogado = false;
         String usuarioAtual = null;
@@ -48,21 +50,37 @@ public class SistemaVendas {
                     }    
                 }
             } else {
+                boolean check;
                 switch (tipoUsuario) {
                     case "admin":
-                        AdminMenu.adminMenu(usuarioService, estoqueService, scanner, usuarioAtual);
+                        check = AdminMenu.adminMenu(usuarioService, estoqueService, scanner, usuarioAtual);
+                        if(check){
+                            usuarioLogado = false;
+                        }
                         break;
                     case "gerente":
-                        GerenteMenu.gerenteMenu(usuarioService, estoqueService, scanner, usuarioAtual);
+                        check = GerenteMenu.gerenteMenu(usuarioService, estoqueService, scanner, usuarioAtual);
+                        if(check){
+                            usuarioLogado = false;
+                        }
                         break;
                     case "usuario":
-                        UsuarioMenu.usuarioMenu(usuarioService, comprarProduto, scanner, usuarioAtual, usuarioLogado, tipoUsuario);
+                        check = UsuarioMenu.usuarioMenu(usuarioService, comprarProduto, scanner, usuarioAtual, usuarioLogado, tipoUsuario);
+                        if(check){
+                            usuarioLogado = false;
+                        }
                         break;
                     default:
                         break;
                 }
             }
         }
+    }
+
+    public static void criarEstoqueTemp() throws IOException {
+        FileWriter temp = new FileWriter("data/estoque_temp.txt");
+        temp.write("");
+        temp.close();
     }
     // Método para transferir o conteúdo de estoque_temp.txt para estoque.txt
     public static void atualizarEstoque() {

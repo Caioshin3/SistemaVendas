@@ -5,7 +5,7 @@ import javax.swing.*;
 import sistemavendas.gerir.*;
 
 public class GerenteMenu {
-    public static void gerenteMenu(UsuarioService usuarioService, sistemavendas.estoque.EstoqueService estoqueService, Scanner scanner, String usuarioAtual) {
+    public static boolean gerenteMenu(UsuarioService usuarioService, sistemavendas.estoque.EstoqueService estoqueService, Scanner scanner, String usuarioAtual) {
         // Gerente não tem a opção de promover usuários
         int escolha;
         while (true) {
@@ -22,9 +22,11 @@ public class GerenteMenu {
                     System.out.println("Logout realizado.");
                     // Transferir o conteúdo de estoque_temp.txt para estoque.txt ao sair
                     SistemaVendas.atualizarEstoque();
-                    return;  // Retorna ao menu de login
+                    return true;  // Retorna ao menu de login
                 }
-                default -> System.out.println("Opção inválida.");
+                default -> {
+                    return true;
+                }
             }
 
             // Opção para retornar ao menu anterior
@@ -34,7 +36,7 @@ public class GerenteMenu {
 
             switch (escolha) {
                 case 0 -> {
-                    return;
+                    return false;
                 }
             }
         }
